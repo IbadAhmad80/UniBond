@@ -18,7 +18,7 @@ const nextConfig = {
         apiUrl:
             process.env.NODE_ENV === "development"
                 ? "http://localhost:3000" // development api
-                : "https://uni-bond.herokuapp.com", // production api
+                : "https://bond-uni.herokuapp.com/", // production api
     },
 };
 
