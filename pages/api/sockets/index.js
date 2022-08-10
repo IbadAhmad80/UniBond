@@ -11,6 +11,14 @@ const gatherUserMessages = (newMessage, prevMessagesMap) => {
     }
 };
 
+const removeUserMesages = (messages, prevMessagesMap) => {
+    const userMessages = prevMessagesMap.get(newMessage.to);
+
+    const unreadMessages = userMessages?.filter((message) => {
+        // return message.id ! ==
+    });
+};
+
 const SocketHandler = (req, res) => {
     if (res.socket.server.io) {
     } else {
