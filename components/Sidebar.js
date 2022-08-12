@@ -5,17 +5,21 @@ import { AiOutlineSearch } from "react-icons/ai";
 import UserCard from "./UserCard";
 import MetaMaskDetails from "./MetaMaskDetails";
 import { chatUser } from "../reduxState/slices/chatUserSlice";
+import { notificationsState } from "reduxState/slices/notificationsSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { socket } from "./ChatModal";
 let newStatuses;
 
 function Sidebar({ pageName }) {
     let { users } = useSelector((state) => state.usersState);
+    const { id } = useSelector((state) => state.authState);
     const [updatedUsers, setUpdatedUsers] = useState([]);
     const [updatedStatus, setUpdatedStatus] = useState({
         userIDs: "",
     });
     const reciever = useSelector((state) => state.chatUserState);
+    const currentChatUser = useSelector((state) => state.chatUserState);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -23,8 +27,14 @@ function Sidebar({ pageName }) {
             socket.current.on("online-user", (onlineUser) => {
                 setUpdatedStatus({ userIDs: new Map(Object.entries(onlineUser)) });
             });
+            socket.current.on("send-notifications", ({ id: recieverID, msgs }) => {
+                if (id === recieverID && !!msgs?.length) {
+                    const unreadMsgs = msgs.filter(({ from }) => from !== currentChatUser?.id);
+                    dispatch(notificationsState({ notifications: unreadMsgs }));
+                }
+            });
         }
-    }, [pageName]);
+    }, [dispatch, id, pageName]);
 
     useEffect(() => {
         const { userIDs } = updatedStatus;

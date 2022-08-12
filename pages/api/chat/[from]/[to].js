@@ -7,7 +7,7 @@ const getMessages = async (req, res) => {
     const { from, to } = req.query;
 
     const messages = await db
-        .collection("messages")
+        .collection("testMessages")
         .find({
             users: {
                 $all: [from, to],

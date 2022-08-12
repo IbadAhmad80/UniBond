@@ -61,6 +61,7 @@ function ChatScreen() {
                         to: reciever.id,
                         from: sender.id,
                         message,
+                        senderName: sender.username,
                         createdAt: Date.now(),
                     });
                     const msgs = [...messages];

@@ -7,7 +7,7 @@ var addMessage = async (req, res) => {
     const { db } = await connectToDatabase();
 
     const { from, to, message } = req.body;
-    const data = await db.collection("messages").insertOne({
+    const data = await db.collection("testMessages").insertOne({
         message: { text: message },
         users: [from, to],
         sender: from,

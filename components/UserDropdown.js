@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleState as toggleSignUpScreenState } from "reduxState/slices/signUpModalSlice";
 import { toggleState as toggleLoginScreenState } from "reduxState/slices/loginModalSlice";
 import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
+import { notificationsState } from "reduxState/slices/notificationsSlice";
 import { chatUser } from "reduxState/slices/chatUserSlice";
 import { auth as authState } from "reduxState/slices/authSlice";
 import { forwardRef } from "react";
@@ -34,8 +35,8 @@ const UserDropdown = forwardRef((props, ref) => {
         localStorage.removeItem("currentUser");
         dispatch(chatUser({ id: 0, email: "", username: "" }));
         socket.current?.emit("delete-user", id);
-
         if (window.location.href.includes("chat")) router.replace("/");
+        dispatch(notificationsState({ notifications: [] }));
     }, [dispatch, id, router, stateSetter]);
 
     useEffect(() => {
