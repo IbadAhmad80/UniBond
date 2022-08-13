@@ -30,11 +30,12 @@ function Sidebar({ pageName }) {
             socket.current.on("send-notifications", ({ id: recieverID, msgs }) => {
                 if (id === recieverID && !!msgs?.length) {
                     const unreadMsgs = msgs.filter(({ from }) => from !== currentChatUser?.id);
+                    socket.current?.emit("remove-notifications", { userId: id, msgs: unreadMsgs });
                     dispatch(notificationsState({ notifications: unreadMsgs }));
                 }
             });
         }
-    }, [dispatch, id, pageName]);
+    }, [currentChatUser, dispatch, id, pageName]);
 
     useEffect(() => {
         const { userIDs } = updatedStatus;

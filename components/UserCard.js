@@ -17,14 +17,10 @@ function UserCard({ id, email, name, skill, status }) {
 
     useEffect(() => {
         if (auth) {
-            let newNotifications = notifications?.filter(({ from }) => from === id && from !== currentChatUser?.id);
-            console.log(currentChatUser, newNotifications);
-            if (currentChatUser?.id) {
-                socket.current?.emit("remove-notifications", { userId: currentUserID, msgs: newNotifications });
-            }
+            let newNotifications = notifications?.filter(({ from }) => from === id);
             setChatNotifications(newNotifications);
         }
-    }, [id, auth, currentUserID, currentChatUser, dispatch, notifications]);
+    }, [id, auth, currentUserID, currentChatUser, notifications]);
 
     const removeReadMessages = () => {
         const unreadMsgs = notifications.filter(({ from }) => from !== id);
